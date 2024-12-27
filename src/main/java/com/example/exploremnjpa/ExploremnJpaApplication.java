@@ -41,11 +41,13 @@ public class ExploremnJpaApplication implements CommandLineRunner {
         System.out.println("Persisted Tours = " + tourService.total());
        
         /********* CHALLENGES **********/
+        /*
         System.out.println("\n\nEasy Tours");
         tourService.lookupByDifficulty(Difficulty.Easy).forEach(System.out::println);
 
         System.out.println("\n\nBackpack Cali Tours");
         tourService.lookupByPackage("BC").forEach(System.out::println);
+        */
     }
 
     /**
