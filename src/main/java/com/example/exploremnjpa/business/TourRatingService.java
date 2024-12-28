@@ -12,12 +12,16 @@ import com.example.exploremnjpa.model.TourRating;
 import com.example.exploremnjpa.repo.TourRatingRepository;
 import com.example.exploremnjpa.repo.TourRepository;
 
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
+
 /**
  * Tour Rating Service
  *
- * Created by Mary Ellen Bowman.
+ * 
  */
 @Service
+@Transactional
 public class TourRatingService {
   private TourRatingRepository tourRatingRepository;
   private TourRepository tourRepository;
@@ -32,6 +36,16 @@ public class TourRatingService {
     this.tourRatingRepository = tourRatingRepository;
     this.tourRepository = tourRepository;
   }
+  
+  public void rateMany(int tourId,  int score, List<Integer> customers) {
+	    Tour tour = verifyTour(tourId);
+	    for (Integer c : customers) {
+	      if (tourRatingRepository.findByTourIdAndCustomerId(tourId, c).isPresent()) {
+	        throw new ConstraintViolationException("Unable to create duplicate ratings", null);
+	      }
+	      tourRatingRepository.save(new TourRating(tour, c, score));
+	    }
+	  }
 
   /**
    * Create a new Tour Rating in the database

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import com.example.exploremnjpa.model.TourPackage;
 import com.example.exploremnjpa.repo.TourPackageRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class TourPackageService {
   private TourPackageRepository tourPackageRepository;
 
@@ -27,4 +30,5 @@ public class TourPackageService {
   public long total() {
     return tourPackageRepository.count();
   }
+  
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,19 +17,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.exploremnjpa.business.TourRatingService;
 import com.example.exploremnjpa.model.TourRating;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+
 
 
 @RestController
 @RequestMapping(path = "/tours/{tourId}/ratings")
 public class TourRatingController {
   private TourRatingService tourRatingService;
+  
+  private Logger log = LoggerFactory.getLogger(TourRatingController.class);
 
   public TourRatingController(TourRatingService tourRatingService) {
     this.tourRatingService = tourRatingService;
@@ -50,6 +57,7 @@ public class TourRatingController {
 
   @GetMapping
   public List<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId) {
+	log.info("GET /tours/{}/ratings", tourId);
     List<TourRating> tourRatings = tourRatingService.lookupRatings(tourId);
     return tourRatings.stream().map(RatingDto::new).toList();
   }
@@ -109,5 +117,22 @@ public class TourRatingController {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public String return404(NoSuchElementException exception) {
     return exception.getMessage();
+  }
+  
+  /**
+   * Create Several Tour Ratings for one tour, score and several customers.
+   *
+   * @param tourId
+   * @param score
+   * @param customers
+   */
+  @PostMapping("/batch")
+  @ResponseStatus(HttpStatus.CREATED)
+  @Operation(summary = "Give Many Tours Same Score")
+  public void createManyTourRatings(@PathVariable(value = "tourId") int tourId,
+                                    @RequestParam(value = "score") int score,
+                                    @RequestBody List<Integer> customers) {
+    log.info("POST /tours/{}/ratings/batch", tourId);
+    tourRatingService.rateMany(tourId, score, customers);
   }
 }

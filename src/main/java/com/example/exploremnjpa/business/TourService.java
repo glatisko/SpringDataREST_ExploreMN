@@ -11,7 +11,10 @@ import com.example.exploremnjpa.model.TourPackage;
 import com.example.exploremnjpa.repo.TourPackageRepository;
 import com.example.exploremnjpa.repo.TourRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class TourService {
   private TourPackageRepository tourPackageRepository;
   private TourRepository tourRepository;
