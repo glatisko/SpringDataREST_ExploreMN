@@ -12,20 +12,7 @@
 	<artifactId>exploremn-jpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>exploremn-jpa</name>
-	<description>Explore Minnesota Relational Database Microservice</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	<description>Explore Minnesota Relational Database Microservice</description>	
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -76,7 +63,7 @@
     		<artifactId>swagger-core-jakarta</artifactId>
     		<version>2.2.27</version>
 		</dependency>
-
+		
 	</dependencies>
 
 	<build>

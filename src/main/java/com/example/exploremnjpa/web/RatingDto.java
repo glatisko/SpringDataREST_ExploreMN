@@ -1,12 +1,10 @@
 package com.example.exploremnjpa.web;
 
 import com.example.exploremnjpa.model.TourRating;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import lombok.Data;
 
 /**
@@ -17,14 +15,13 @@ import lombok.Data;
 public class RatingDto {
 
   @Min(0)
-  @Max(5)
-  
+  @Max(5)  
   private Integer score;
 
   @Size(max = 255)
   private String comment;
 
-  //@NotNull
+  @NotNull
   private Integer customerId;
 
   /**
@@ -38,6 +35,10 @@ public class RatingDto {
     this.score = score;
     this.comment = comment;
     this.customerId = customerId;
+  }
+  
+  public RatingDto() {
+	  super();
   }
 
   public RatingDto(TourRating entity) {
